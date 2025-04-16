@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <!-- <PublishAot>true</PublishAot> -->
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	  <DnneNativeBinaryName>CryptoExchangeWrapper</DnneNativeBinaryName>
+    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
+	  <DnneAddGeneratedBinaryToProject>true</DnneAddGeneratedBinaryToProject>
+    <!-- Include the override option for dnne_abort() -->
+    <!-- <DnneCompilerUserFlags>$(DnneCompilerUserFlags) $(MSBuildThisFileDirectory)override.c</DnneCompilerUserFlags> -->
+  </PropertyGroup>
+
+  <ItemGroup>
+	<!--<PackageReference Include="Le.CryptoClients.Net" Version="2.13.4" />-->
+	<PackageReference Include="DNNE" Version="2.0.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\CryptoClients.Net\CryptoClients.Net\CryptoClients.Net.csproj" />
+  </ItemGroup>
+
+</Project>
