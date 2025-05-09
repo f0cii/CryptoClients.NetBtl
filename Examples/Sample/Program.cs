@@ -122,6 +122,9 @@ exchangeParameters.AddValue(new ExchangeParameter(Exchange.Bybit, "UnifiedAccoun
 var balancesClient = restClient.GetBalancesClient(TradingMode.PerpetualLinear, Exchange.Bybit);
 var balances = balancesClient.GetBalancesAsync(new GetBalancesRequest(TradingMode.PerpetualLinear, exchangeParameters: exchangeParameters)).GetAwaiter().GetResult();
 
+var feeClient = restClient.GetFeeClient(TradingMode.DeliveryLinear, Exchange.GateIo);
+var fees = feeClient!.GetFeesAsync(new GetFeeRequest(symbol, exchangeParameters: exchangeParameters)).GetAwaiter().GetResult();
+
 // Subscribe to trade updates for the specified exchange
 //foreach (var subResult in await socketClient.SubscribeToTradeUpdatesAsync(new SubscribeTradeRequest(symbol), LogTrades, [Exchange.Binance, Exchange.HTX, Exchange.OKX]))
 //    Console.WriteLine($"{subResult.Exchange} subscribe result: {subResult.Success} {subResult.Error}");
