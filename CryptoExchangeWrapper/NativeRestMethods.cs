@@ -114,26 +114,19 @@ namespace CryptoExchangeWrapper
         [UnmanagedCallersOnly(EntryPoint = "create_exchange_rest_client")]
         public unsafe static IntPtr CreateExchangeRestClient(sbyte* globalOptions)
         {
-            Console.WriteLine("CreateExchangeRestClient 1");
             try
             {
                 var globalOptionsString = new string(globalOptions);
-                Console.WriteLine("CreateExchangeRestClient 2");
                 var exGlobalOptions = JsonSerializer.Deserialize<ExGlobalExchangeOptions>(globalOptionsString);
-                Console.WriteLine("CreateExchangeRestClient 3");
                 //var exGlobalOptionsString = JsonSerializer.Serialize(exGlobalOptions);
                 var restClient = new ExchangeRestClient(globalOptions =>
                 {
-                    Console.WriteLine("CreateExchangeRestClient 4");
                     if (exGlobalOptions?.Proxy != null)
                     {
-                        Console.WriteLine("CreateExchangeRestClient 5");
                         globalOptions.Proxy = new CryptoExchange.Net.Objects.ApiProxy(exGlobalOptions.Proxy.Host!, exGlobalOptions.Proxy.Port, exGlobalOptions.Proxy.Username, exGlobalOptions.Proxy.Password);
                     }
-                    Console.WriteLine("CreateExchangeRestClient 6");
                     globalOptions.RequestTimeout = TimeSpan.FromSeconds(10);
                     globalOptions.ApiCredentials = new ExchangeCredentials();
-                    Console.WriteLine("CreateExchangeRestClient 7");
                     // globalOptions.RateLimiterEnabled = true;
                     foreach (var apiCredential in exGlobalOptions?.ApiCredentials ?? new List<ExApiCredentials>())
                     {
@@ -671,27 +664,20 @@ struct ExExchangeWebResult{
         [UnmanagedCallersOnly(EntryPoint = "get_futures_symbols")]
         public unsafe static int GetFuturesSymbols(IntPtr inst, int tradeMode, [DNNE.C99Type("struct ExExchangeWebResult*")] ExExchangeWebResult* result)
         {
-            Console.WriteLine("GetFuturesSymbols");
             var futuresSymbolClient = GCHandle.FromIntPtr(inst).Target as IFuturesSymbolRestClient;
-            Console.WriteLine("GetFuturesSymbols 1");
             try
             {
-                Console.WriteLine("GetFuturesSymbols 2");
                 var symbols = futuresSymbolClient?.GetFuturesSymbolsAsync(new GetSymbolsRequest((TradingMode)tradeMode, exchangeParameters: null)).GetAwaiter().GetResult();
-                Console.WriteLine("GetFuturesSymbols 3");
                 if (symbols == null)
                 {
                     SetExchangeWebResult(result, false, 1, "GetFuturesSymbolsAsync failed", string.Empty);
                     return 1;
                 }
-                Console.WriteLine("GetFuturesSymbols 4");
                 if (!symbols.Success)
                 {
                     SetExchangeWebResult(result, false, symbols.Error?.Code ?? 0, symbols.Error?.Message ?? string.Empty, symbols.Exchange);
                     return 2;
                 }
-
-                Console.WriteLine("GetFuturesSymbols 5");
 
                 SetExchangeWebResult(result, true, 0, string.Empty, symbols.Exchange);
 
