@@ -672,7 +672,7 @@ struct ExExchangeNativeResult{
                 {
                     foreach (var balance in update.Data)
                     {
-                        Console.WriteLine(balance);
+                        // Console.WriteLine(balance);
                         callback(target,
                             exchange,
                             balance.Asset,
